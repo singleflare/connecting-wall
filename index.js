@@ -4,8 +4,10 @@ let groups=[
   {link:"3",clues:["9","10","11","12"]},
   {link:"4",clues:["13","14","15","16"]}
 ]
-groups.forEach(group => {
-  group.clues.forEach(clue => {
-    $('wall').html(clue)
+(function($){
+  groups.forEach(group => {
+    group.clues.forEach(clue,$ => {
+      $('wall').html(clue)
+    });
   });
-});
+})(jQuery)
