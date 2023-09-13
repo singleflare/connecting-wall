@@ -1,0 +1,15 @@
+#wall{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px 10px;
+  padding: 10px;
+  background-color: #91C3E4;
+}
+.brick{
+  border-radius: 5px;
+  color: #1D3C4C;
+  background: #91C3E4;
+  height:100%;
+  text-align: center;
+}
