@@ -1,10 +1,12 @@
 #wall{
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 20px 20px;
   margin-left: 20px;
   margin-right: 20px;
+  top:50%;
 }
 .brick{
   border-radius: 5px;
@@ -14,4 +16,12 @@
   font-size: 50px;
   margin:5px;
   text-align: center;
+  transition-duration: .3s;
+}
+.brick:hover{
+  background-color: #45b5ff;
+}
+.brick:checked{
+  background-color: black;
+  color:white;
 }
