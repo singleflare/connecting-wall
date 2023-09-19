@@ -13,15 +13,14 @@
   color: #1D3C4C;
   background: #91C3E4;
   height:100px;
-  font-size: 50px;
   margin:5px;
+
+  font-size: 25px;
   text-align: center;
   transition-duration: .3s;
+  word-wrap: break-word;
+  font-family:Arial, Helvetica, sans-serif;
 }
 .brick:hover{
   background-color: #45b5ff;
-}
-.brick:checked{
-  background-color: black;
-  color:white;
 }

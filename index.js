@@ -1,19 +1,25 @@
 let groups=[
-  {group1:["1","2","3","4"]},
-  {group2:["5","6","7","8"]},
-  {group3:["9","10","11","12"]},
-  {group4:["13","14","15","16"]}
+  {group1:["one","two","three","four"]},
+  {group2:["five","six","se7en","8ight"]},
+  {group3:["nin9","1en","eleven","twelve"]},
+  {group4:["thirteen thhriteen","fourteen","fifteen","sixteen"]}
 ]
 let brickClues=[]
-for(let i=0;i<3;i++){
-  for(let j=0;j<3;j++){
-    brickClues.push(groups.at(i).group1[j])
-    brickClues.push(groups.at(i).group2[j])
-    brickClues.push(groups.at(i).group3[j])
-    brickClues.push(groups.at(i).group4[j])
+let brickElement=document.getElementsByClassName('brick')
+const WIDTH=4
+let selected=[]
+function playSound(file){
+  let sound=new Audio('audio/'+file)
+  sound.play()
+}
+
+for(let i=0;i<4;i++){
+  let group=Object.values(groups[i])[0]
+  for(let j=0;j<4;j++){
+    brickClues.push(group[j])
   }
 }
-console.log(brickClues)
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
@@ -21,9 +27,29 @@ function shuffleArray(array) {
   }
   return array;
 }
+shuffleArray(brickClues)
 
-const WIDTH=4
-let selected=[]
+for(let i=1;i<=16;i++){
+  document.getElementById('b'+i).innerHTML=brickClues[i-1]
+  brickElement[i-1].onclick=function(){
+    playSound('wallBtnClick.mp3')
+    if(this.style.backgroundColor!='black'){
+      this.style.backgroundColor='black'
+      this.style.color='white'
+      selected.push(document.getElementById('b'+i).innerHTML)
+      console.log(selected)
+    }
+    else{
+      this.style.backgroundColor='#91C3E4'
+      this.style.color='#1D3C4C'
+      selected.pop(document.getElementById('b'+i).innerHTML)
+      console.log(selected)
+    }
+    
+  }
+}
+
 function selectBrick(brickNum){
   selected.push(brickNum)
+  console.log(selected)
 }
