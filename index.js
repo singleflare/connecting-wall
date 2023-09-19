@@ -29,6 +29,17 @@ function shuffleArray(array) {
 }
 shuffleArray(brickClues)
 
+function deselectAll(){
+  if(selected.length==WIDTH){
+    playSound('incorrectGroup.mp3')
+    for(let i=1;i<=16;i++){
+      document.getElementById('b'+i).style.backgroundColor='#91C3E4'
+      document.getElementById('b'+i).style.color='#1D3C4C'
+      selected.pop()
+    }
+  }
+}
+
 for(let i=1;i<=16;i++){
   document.getElementById('b'+i).innerHTML=brickClues[i-1]
   brickElement[i-1].onclick=function(){
@@ -38,18 +49,13 @@ for(let i=1;i<=16;i++){
       this.style.color='white'
       selected.push(document.getElementById('b'+i).innerHTML)
       console.log(selected)
+      setTimeout(deselectAll,1500)
     }
     else{
       this.style.backgroundColor='#91C3E4'
       this.style.color='#1D3C4C'
-      selected.pop(document.getElementById('b'+i).innerHTML)
+      selected=selected.filter(item=>item!==document.getElementById('b'+i).innerHTML)
       console.log(selected)
     }
-    
   }
-}
-
-function selectBrick(brickNum){
-  selected.push(brickNum)
-  console.log(selected)
 }
