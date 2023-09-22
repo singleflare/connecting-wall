@@ -2,7 +2,7 @@ let groups=[
   {group1:["one","two","three","four"]},
   {group2:["five","six","se7en","8ight"]},
   {group3:["nin9","1en","eleven","twelve"]},
-  {group4:["thirteen thhriteen","fourteen","fifteen","sixteen"]}
+  {group4:["thhriteen","fourteen","fifteen","sixteen"]}
 ]
 let brickClues=[]
 let brickElement=document.getElementsByClassName('brick')
@@ -11,6 +11,16 @@ let selected=[]
 function playSound(file){
   let sound=new Audio('audio/'+file)
   sound.play()
+}
+
+function getIdByInnerHTML(innerHTML) {
+  let allElements = document.getElementsByTagName("*");
+  for (let i = 0; i < allElements.length; i++) {
+    if (allElements[i].innerHTML === innerHTML) {
+      return allElements[i].id;
+    }
+  }
+  return null;
 }
 
 for(let i=0;i<4;i++){
@@ -40,16 +50,38 @@ function deselectAll(){
   }
 }
 
+function checkCorrect(selectedArray) {
+  for (let group of groups) {
+    for (let key in group) {
+      let allElementsInGroup = selectedArray.every(element => group[key].includes(element))
+      if (allElementsInGroup) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
 for(let i=1;i<=16;i++){
   document.getElementById('b'+i).innerHTML=brickClues[i-1]
   brickElement[i-1].onclick=function(){
     playSound('wallBtnClick.mp3')
-    if(this.style.backgroundColor!='black'){
-      this.style.backgroundColor='black'
+    if(this.style.backgroundColor!='blue'){
+      this.style.backgroundColor='blue'
       this.style.color='white'
       selected.push(document.getElementById('b'+i).innerHTML)
       console.log(selected)
-      setTimeout(deselectAll,1500)
+      if(selected.length==4){
+        if(checkCorrect(selected)==true){
+          setTimeout(function(){
+            playSound("solveClue.mp3")
+          },500)
+        }
+        else{
+          setTimeout(deselectAll,1500)
+        }
+      }
+      
     }
     else{
       this.style.backgroundColor='#91C3E4'
