@@ -62,6 +62,28 @@ function checkCorrect(selectedArray) {
   return false
 }
 
+function swap2GridElements(element1,element2){
+    // Get the elements
+  element1 = document.getElementById("element1");
+  element2 = document.getElementById("element2");
+
+  // Create markers for the original positions
+  let marker1 = document.createElement('div');
+  let marker2 = document.createElement('div');
+
+  // Insert the markers
+  element1.parentNode.insertBefore(marker1, element1);
+  element2.parentNode.insertBefore(marker2, element2);
+
+  // Swap the elements
+  marker1.parentNode.insertBefore(element2, marker1);
+  marker2.parentNode.insertBefore(element1, marker2);
+
+  // Remove the markers
+  marker1.parentNode.removeChild(marker1);
+  marker2.parentNode.removeChild(marker2);
+}
+
 for(let i=1;i<=16;i++){
   document.getElementById('b'+i).innerHTML=brickClues[i-1]
   brickElement[i-1].onclick=function(){
@@ -75,10 +97,11 @@ for(let i=1;i<=16;i++){
         if(checkCorrect(selected)==true){
           setTimeout(function(){
             playSound("solveClue.mp3")
+            swap2GridElements('b1','b2')
           },500)
         }
         else{
-          setTimeout(deselectAll,1500)
+          setTimeout(deselectAll,500)
         }
       }
       
