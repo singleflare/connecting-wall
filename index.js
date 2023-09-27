@@ -62,22 +62,22 @@ function checkCorrect(selectedArray) {
   return false
 }
 
-function swap2GridElements(element1,element2){
+function swap2GridInnerHTMLs(innerHTML1,innerHTML2){
     // Get the elements
-  element1 = document.getElementById("element1");
-  element2 = document.getElementById("element2");
+  id1 = getIdByInnerHTML(innerHTML1);
+  id2 = getIdByInnerHTML(innerHTML2);
 
   // Create markers for the original positions
   let marker1 = document.createElement('div');
   let marker2 = document.createElement('div');
 
   // Insert the markers
-  element1.parentNode.insertBefore(marker1, element1);
-  element2.parentNode.insertBefore(marker2, element2);
+  id1.parentNode.insertBefore(marker1, id1);
+  id2.parentNode.insertBefore(marker2, id2);
 
   // Swap the elements
-  marker1.parentNode.insertBefore(element2, marker1);
-  marker2.parentNode.insertBefore(element1, marker2);
+  marker1.parentNode.insertBefore(id2, marker1);
+  marker2.parentNode.insertBefore(id1, marker2);
 
   // Remove the markers
   marker1.parentNode.removeChild(marker1);
