@@ -1,19 +1,19 @@
+body{
+  overflow: hidden;
+}
 #wall{
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 20px 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-  top:50%;
+  height:92vh;
+  gap: 5px;
 }
 .brick{
   border-radius: 5px;
   color: #1D3C4C;
   background: #91C3E4;
   height:100px;
-  margin:5px;
   transition-duration: 0.3s;
 
   display: flex;
@@ -22,7 +22,34 @@
 	align-items: center;
   font-size: 30px;
   font-family:Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  height:100%;
+  margin:0;
 }
 .brick:hover{
   background-color: #45b5ff;
+}
+.timer{
+  position: absolute;
+  right:0;
+  margin:10px;
+  width:74%;
+  height:50px;
+  background-color: darkblue;
+  border-radius: 10px;
+}
+.lives{
+  position: absolute;
+  left:0;
+  width:24%;
+  height:50px;
+  margin: 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
+.life{
+  background-color: black;
+  width:25%;
+  height:50px;
 }
