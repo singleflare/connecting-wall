@@ -4,6 +4,7 @@ let groups=[
   {group3:["nin9","1en","eleven","twelve"]},
   {group4:["thhriteen","fourteen","fifteen","sixteen"]}
 ]
+let brickClues=[]
 let selected=[]
 let clickColor='green'
 
@@ -14,23 +15,37 @@ function playSound(file){
 
 for(let i=1;i<=16;i++){
   document.getElementById('b'+i).addEventListener('click',function(){
-    document.getElementById('b'+i).style.backgroundColor=clickColor
-    playSound('wallBtnClick.mp3')
-    selected.push(i)
-    console.log(selected)
+    select()
 
     if(selected.length==4){ //each element clicked triggers the 'check array'
-      setInterval(function(){
-        for(let i=0;i<=3;i++){
-          document.getElementById('b'+selected[i]).style.backgroundColor='#91C3E4'
-        }
-        playSound('incorrectGroup.mp3')
-        selected=[]
-      },1000)
-      
+      setInterval(uncheck,1000)
     }
   })
 }
+
+function select(brick){
+  document.getElementById('b'+i).style.backgroundColor=clickColor
+  selected.push(i)
+  console.log(selected)
+}
+
+function deselect(brick){
+  document.getElementById('b'+i).style.backgroundColor='#91C3E4'
+  console.log(selected)
+}
+
+function checkCorrect(){
+  selected.forEach(()=>{
+    document.getElementById('b'+selected[i]).style.backgroundColor='#91C3E4'
+  })
+  selected=[]
+}
+
+function shuffleBricks(){
+
+}
+
+
 
 function setClickColor(color){
   clickColor=color
