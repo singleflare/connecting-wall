@@ -1,6 +1,14 @@
 body{
   overflow: hidden;
 }
+.overlay{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255,255,255,0.5);
+}
 #wall{
   position: relative;
   display: grid;

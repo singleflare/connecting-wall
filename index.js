@@ -1,9 +1,10 @@
 let groups=[
-  {group1:["one","two","three","four"]},
-  {group2:["five","six","se7en","8ight"]},
-  {group3:["nin9","1en","eleven","twelve"]},
-  {group4:["thhriteen","fourteen","fifteen","sixteen"]}
+  {group1:["0","1","2","3"]},
+  {group2:["4","5","6","7"]},
+  {group3:["8","9","A","B"]},
+  {group4:["C","D","E","F"]}
 ]
+
 let cluesList=(()=>{
   let result=[]
   groups.forEach(group=>{
@@ -40,46 +41,48 @@ function createHtmlElement(parent,tag,cssClass,content){
   return child
 }
 
-elementList=document.getElementsByClassName('brick')
+function select(brickElement){
+  selected.push(brickElement)
+  console.log(selected)
+  brickElement.style.backgroundColor='#FFFFAA'
+  checkCorrect(selected)
+}
 
+function deselect(brickElement){
+  document.getElementById('b'+i).style.backgroundColor='#91C3E4'
+  console.log(selected)
+}
+
+function checkCorrect(elementsArr){
+  if(selected.length==4){
+    selected.forEach((element)=>{
+      element.style.backgroundColor='#91C3E4'
+    })
+    selected=[]
+  }
+  
+}
+
+elementList=document.getElementsByClassName('brick')
+console.log(elementList)
 function game(groups){
   if(!groups){
     groups=[
-      ["0","1","2","3"],
-      ["4","5","6","7"],
-      ["8","9","A","B"],
-      ["C","D","E","F"]
+      {group1:["NULL","NULL","NULL","NULL"]},
+      {group2:["NULL","NULL","NULL","NULL"]},
+      {group3:["NULL","NULL","NULL","NULL"]},
+      {group4:["NULL","NULL","NULL","NULL"]}
     ]
   }
   shuffle(cluesList)
 
   cluesList.forEach(function(clue,index){
     elementList[index].innerHTML=clue
-    console.log(cluesList.length,elementList.length)
   })
 
-  
-}
-function select(brick){
-  document.getElementById('b'+i).style.backgroundColor=clickColor
-  selected.push(i)
-  console.log(selected)
-}
-
-function deselect(brick){
-  document.getElementById('b'+i).style.backgroundColor='#91C3E4'
-  console.log(selected)
-}
-
-function checkCorrect(){
-  selected.forEach(()=>{
-    document.getElementById('b'+selected[i]).style.backgroundColor='#91C3E4'
-  })
-  selected=[]
-}
-
-function shuffleBricks(){
-
+  for(let element of elementList){
+    element.addEventListener("click",function(){select(element)})
+  }
 }
 
 
