@@ -4,25 +4,62 @@ let groups=[
   {group3:["nin9","1en","eleven","twelve"]},
   {group4:["thhriteen","fourteen","fifteen","sixteen"]}
 ]
-let brickClues=[]
+let cluesList=(()=>{
+  let result=[]
+  groups.forEach(group=>{
+    result.push(...Object.values(group))
+    //Object: A class/object that works with objects.
+    //Object.values(object): Object's method that returns the values of object
+    //Object.keys(boject): Return object's key
+  })
+  result=result.flat()
+  return result
+})()
 let selected=[]
 let clickColor='green'
 
-function playSound(file){
-  let sound=new Audio('audio/'+file)
-  sound.play()
+function shuffle(arr){
+  for(let i=0;i<arr.length;i++){
+    let rand=Math.floor(Math.random()*(i+1))
+    let temp=arr[rand]
+    arr[rand]=arr[i]
+    arr[i]=temp
+  }
+  return arr
 }
 
-for(let i=1;i<=16;i++){
-  document.getElementById('b'+i).addEventListener('click',function(){
-    select()
+function createHtmlElement(parent,tag,cssClass,content){
+  /*
+  parent: element's parent. Must pass an existing element to append child to that element.
+  tag: element's HTML tag
+  cssClass: Must be separated by spaces.
+  */
+  let child=parent.appendChild(document.createElement(tag))
+  if(cssClass) child.classList.add(...cssClass.split(" "))
+  if(content) child.innerHTML=content
+  return child
+}
 
-    if(selected.length==4){ //each element clicked triggers the 'check array'
-      setInterval(uncheck,1000)
-    }
+elementList=document.getElementsByClassName('brick')
+
+function game(groups){
+  if(!groups){
+    groups=[
+      ["0","1","2","3"],
+      ["4","5","6","7"],
+      ["8","9","A","B"],
+      ["C","D","E","F"]
+    ]
+  }
+  shuffle(cluesList)
+
+  cluesList.forEach(function(clue,index){
+    elementList[index].innerHTML=clue
+    console.log(cluesList.length,elementList.length)
   })
-}
 
+  
+}
 function select(brick){
   document.getElementById('b'+i).style.backgroundColor=clickColor
   selected.push(i)
