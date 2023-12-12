@@ -8,8 +8,11 @@
   
 </head>
 <body>
-  <div class="overlay">
-    <button style="z-index: 0;">Play</button>
+  <div id="overlay" class="overlay">
+    <button class="play" onclick="
+      game();
+      document.getElementById('overlay').remove()
+      ">Play</button>
   </div>
   <div id="wall">
     <div class="brick"></div>
