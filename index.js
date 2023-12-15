@@ -1,4 +1,4 @@
-let groups=[
+let groupsAndClues=[
   {group1:["0","1","2","3"]},
   {group2:["4","5","6","7"]},
   {group3:["8","9","A","B"]},
@@ -6,11 +6,12 @@ let groups=[
 ]
 
 elementList=document.getElementsByClassName('brick')
-let selected=[]
+let selectedElements=[]
+let correctGroups=0
 
-let cluesList=(()=>{ //flatten groups array into cluesList array
+let cluesStrList=(()=>{ //flatten groups array into cluesStrList array
   let result=[]
-  groups.forEach(group=>{result.push(...Object.values(group))})
+  groupsAndClues.forEach(group=>{result.push(...Object.values(group))})
   //Object: A class/object that works with objects.
   //Object.values/keys(object): Object's method that returns the values/key of object
   result=result.flat()
@@ -40,38 +41,48 @@ function createHtml(parent,tag,cssClass,content){
 }
 
 function select(brickElement){
-  brickElement.selected=true
-  selected.push(brickElement)
-  console.log(selected)
+  selectedElements.push(brickElement)
+  console.log(selectedElements)
   brickElement.style.backgroundColor='#054872'
   brickElement.style.color='white'
-  if(selected.length==4){setTimeout(checkCorrect,500)}
+  if(selectedElements.length==4){setTimeout(checkCorrect,500)}
 }
 
 function deselect(brickElement){
-  document.getElementById('b'+i).style.backgroundColor='#91C3E4'
-  console.log(selected)
+  
 }
 
+let listOfCluesList=(()=>{
+  let result=[]
+  groupsAndClues.forEach(group=>{result.push(...Object.values(group))})
+  return result
+})
+
 function checkCorrect(){
-  groups.forEach(function(group){
-    if(selected==Object.values(group)){console.log('correct')}
+  
+  groupsAndClues.forEach(function(group){
+    let isEqual=selectedElements.every((element,i)=>{element[i].innerHTML})
+    if(selectedElements.every((clue,i)=>clue===group[i])){
+      console.log('correct')
+    }
     else{
-      selected.forEach((element)=>{
+      selectedElements.forEach((element)=>{
         element.style.backgroundColor='#91C3E4'
         element.style.color='black'
       })
-      selected=[]
+      selectedElements=[]
     }
   })
 }
 
 function game(){
-  shuffle(cluesList)
+  shuffle(cluesStrList)
 
   //write clue contents to each brick
-  cluesList.forEach(function(clue,index){elementList[index].innerHTML=clue})
+  cluesStrList.forEach(function(clue,index){elementList[index].innerHTML=clue})
 
   //assign event listener to each brick
   for(let element of elementList){element.addEventListener("click",function(){select(element)})}
+
+
 }
