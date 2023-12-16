@@ -4,9 +4,12 @@ let groupsAndClues=[
   {group3:["8","9","A","B"]},
   {group4:["C","D","E","F"]}
 ]
+
+function playAudio(audio){
+  new Audio('./audio/'+audio).play()
+}
 let selectedClueElementsList=[]
 let correctGroups=0
-
 
 let cluesListList=(()=>{
   let res=[]
@@ -39,6 +42,7 @@ function createHtml(parent,tag,cssClass,content){
 }
 
 function select(brickElement){
+  playAudio('wallBtnClick.mp3')
   selectedClueElementsList.push(brickElement)
   console.log(selectedClueElementsList)
   brickElement.style.backgroundColor='#054872'
@@ -56,17 +60,16 @@ let listOfCluesList=(()=>{
   return result
 })
 
-function checkCorrect(){ //TODO: Fix 'selectedCluesList' is not accessed
+function checkCorrect(){
   cluesListList.forEach(function(cluesList){
     let selectedCluesList=(()=>{
       let res=[]
       selectedClueElementsList.forEach(function(selectedClueElement){res.push(selectedClueElement.innerHTML)})
       return res
-    })
-    console.log(selectedCluesList())
+    })()
     let sortedCluesList=cluesList.sort()
-    let sortedSelectedCluesList=selectedCluesList().sort()
-    if(sortedSelectedCluesList===sortedCluesList){
+    let sortedSelectedCluesList=selectedCluesList.sort()
+    if(sortedSelectedCluesList.every((clue,i)=>clue===sortedCluesList[i])){
       console.log('correct')
     }
   })
