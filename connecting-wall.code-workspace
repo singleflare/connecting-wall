@@ -7,5 +7,7 @@
 			"path": "../only-connecting-wall"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "connecting-wall"
+	}
 }

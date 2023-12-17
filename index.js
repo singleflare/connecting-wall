@@ -70,9 +70,10 @@ function checkCorrect(){
     let sortedCluesList=cluesList.sort()
     let sortedSelectedCluesList=selectedCluesList.sort()
     if(sortedSelectedCluesList.every((clue,i)=>clue===sortedCluesList[i])){
-      console.log('correct')
+      playAudio('solveClue.mp3')
     }
   })
+  playAudio('incorrectGroup.mp3')
   selectedClueElementsList.forEach((element)=>{
     element.style.backgroundColor='#91C3E4'
     element.style.color='black'

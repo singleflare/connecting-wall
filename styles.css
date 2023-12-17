@@ -27,7 +27,7 @@ body{
 .brick{
   color: black;
   background: #91C3E4;
-  transition-duration: 0.2s;
+  transition-duration: 0s;
 
   display: flex;
 	flex-flow: column;
