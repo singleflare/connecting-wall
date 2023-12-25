@@ -75,8 +75,22 @@ function checkCorrect(){
   selectedClueEList=[]
 }
 
-function move(el1,el2){
-  
+function move(){
+  // Get the elements
+  let element1 = document.querySelector('#wall > div:nth-child(1)');
+  let element2 = document.querySelector('#wall > div:nth-child(2)');
+
+  console.log(element1,element2)
+  // Get the current grid areas
+  let gridArea1 = window.getComputedStyle(element1).getPropertyValue('grid-area');
+  let gridArea2 = window.getComputedStyle(element2).getPropertyValue('grid-area');
+
+  console.log(gridArea1,gridArea2)
+  // Swap the grid areas
+  element1.style.gridArea = gridArea2;
+  element2.style.gridArea = gridArea1;
+
+  console.log(element1,element2)
 }
 
 function game(){
