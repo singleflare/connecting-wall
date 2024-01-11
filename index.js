@@ -10,14 +10,17 @@ function playAudio(audio){
 }
 let selectedClueEList=[]
 let correctGroups=0
+let wallE=document.getElementById('wall')
 
-let cluesListList=(()=>{
+let cluesListList=(()=>{ //stores list of brick groups
   let res=[]
   groupsAndClues.forEach(group=>{res.push(...Object.values(group))})
   //Object: A class/object that works with objects.
   //Object.values/keys(object): Object's method that returns the values/key of object
   return res
 })()
+
+let cluesList=cluesListList.flat()
 
 function shuffle(arr){
   for(let i=0;i<arr.length;i++){
@@ -41,16 +44,16 @@ function createHtml(parent,tag,cssClass,content){
   return child
 }
 
-function select(brickE){
+function select(clueE){
   playAudio('wallBtnClick.mp3')
-  selectedClueEList.push(brickE)
-  console.log(selectedClueEList)
-  brickE.style.backgroundColor='#054872'
-  brickE.style.color='white'
+  selectedClueEList.push(clueE)
+  // console.log(selectedClueEList)
+  clueE.style.backgroundColor='#054872'
+  clueE.style.color='white'
   if(selectedClueEList.length==4){setTimeout(checkCorrect,500)}
 }
 
-function deselect(brickE){
+function deselect(clueE){
   
 }
 
@@ -76,28 +79,15 @@ function checkCorrect(){
 }
 
 function move(){
-  // Get the elements
-  let element1 = document.querySelector('#wall > div:nth-child(1)');
-  let element2 = document.querySelector('#wall > div:nth-child(2)');
-
-  console.log(element1,element2)
-  // Get the current grid areas
-  let gridArea1 = window.getComputedStyle(element1).getPropertyValue('grid-area');
-  let gridArea2 = window.getComputedStyle(element2).getPropertyValue('grid-area');
-
-  console.log(gridArea1,gridArea2)
-  // Swap the grid areas
-  element1.style.gridArea = gridArea2;
-  element2.style.gridArea = gridArea1;
-
-  console.log(element1,element2)
+  
 }
 
 function game(){
+
   let elementList=document.getElementsByClassName('brick')
 
   //write clue contents to each brick
-  shuffle(cluesListList.flat()).forEach(function(clue,index){elementList[index].innerHTML=clue})
+  shuffle(cluesList).forEach(function(clue,index){elementList[index].innerHTML=clue})
 
   //assign event listener to each brick
   for(let element of elementList){element.addEventListener("click",function(){select(element)})}
