@@ -8,11 +8,11 @@ let groupsAndClues=[
 function playAudio(audio){
   new Audio('./audio/'+audio).play()
 }
-let selectedClueEList=[]
-let correctGroups=0
-let wallE=document.getElementById('wall')
+/**Array of selected bricks.*/let selected=[]
+/**Index of the correct group, from top to bottom. Max 3.*/let group=0
+let wall=document.getElementById('wall')
 
-let cluesListList=(()=>{ //stores list of brick groups
+/**Array of same-connection clue arrays.*/let connections=(()=>{
   let res=[]
   groupsAndClues.forEach(group=>{res.push(...Object.values(group))})
   //Object: A class/object that works with objects.
@@ -20,7 +20,7 @@ let cluesListList=(()=>{ //stores list of brick groups
   return res
 })()
 
-let cluesList=cluesListList.flat()
+/**Array of all clues.*/let clues=connections.flat()
 
 function shuffle(arr){
   for(let i=0;i<arr.length;i++){
@@ -44,38 +44,38 @@ function createHtml(parent,tag,cssClass,content){
   return child
 }
 
-function select(clueE){
+/**Selects brick, adds them to the selected array, and highlights it.*/function select(e){
   playAudio('wallBtnClick.mp3')
-  selectedClueEList.push(clueE)
-  // console.log(selectedClueEList)
-  clueE.style.backgroundColor='#054872'
-  clueE.style.color='white'
-  if(selectedClueEList.length==4){setTimeout(checkCorrect,500)}
+  selected.push(e)
+  // console.log(selected)
+  e.style.backgroundColor='#054872'
+  e.style.color='white'
+  if(selected.length==4){setTimeout(checkCorrect,500)}
 }
 
-function deselect(clueE){
+function deselect(e){
   
 }
 
 function checkCorrect(){
-  cluesListList.forEach(function(cluesList){
-    let selectedClueList=(()=>{
+  connections.forEach(function(connection){
+    let selectedClues=(()=>{
       let res=[]
-      selectedClueEList.forEach(function(selectedClueE){res.push(selectedClueE.innerHTML)})
+      selected.forEach(function(element){res.push(element.innerHTML)})
       return res
     })()
-    let sortedCluesList=cluesList.sort()
-    let sortedSelectedCluesList=selectedClueList.sort()
-    if(sortedSelectedCluesList.every((clue,i)=>clue===sortedCluesList[i])){
+    let sortedConnection=connection.sort()
+    let sortedSelectedClues=selectedClues.sort()
+    if(sortedSelectedClues.every((clue,i)=>clue===sortedConnection[i])){
       playAudio('solveClue.mp3')
     }
   })
   playAudio('incorrectGroup.mp3')
-  selectedClueEList.forEach((element)=>{
+  selected.forEach((element)=>{
     element.style.backgroundColor='#91C3E4'
     element.style.color='black'
   })
-  selectedClueEList=[]
+  selected=[]
 }
 
 function move(){
@@ -84,12 +84,13 @@ function move(){
 
 function game(){
 
-  let elementList=document.getElementsByClassName('brick')
+  /**Array of all bricks.*/let bricks=document.getElementsByClassName('brick')
+  console.log(bricks,clues)
 
   //write clue contents to each brick
-  shuffle(cluesList).forEach(function(clue,index){elementList[index].innerHTML=clue})
+  shuffle(clues).forEach(function(clue,index){bricks[index].innerHTML=clue})
 
   //assign event listener to each brick
-  for(let element of elementList){element.addEventListener("click",function(){select(element)})}
+  for(let element of bricks){element.addEventListener("click",function(){select(element)})}
 
 }
