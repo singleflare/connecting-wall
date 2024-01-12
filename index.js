@@ -9,7 +9,7 @@ function playAudio(audio){
   new Audio('./audio/'+audio).play()
 }
 /**Array of selected bricks.*/let selected=[]
-/**Index of the correct group's row. Max 3.*/let row=0
+/**Index of the current correct group's row. Max 3.*/let row=0
 let wall=document.getElementById('wall')
 
 /**Array of same-connection clue arrays.*/let connections=(()=>{
@@ -51,7 +51,7 @@ function createHtml(parent,tag,cssClass,content){
 function select(e){
   playAudio('wallBtnClick.mp3')
   selected.push(e)
-  // console.log(selected)
+  console.log(selected)
   e.style.backgroundColor='#054872'
   e.style.color='white'
   if(selected.length==4){setTimeout(checkCorrect,500)}
@@ -72,20 +72,23 @@ function checkCorrect(){
       selected.forEach(function(e){
         e.row=row
       })
-			let rowIndex = row * 4;
-			let unsolvedIndex = rowIndex + 4;
-      bricks.forEach(function (brick, index) {
+			/**Index of the first element of the correct group.*/let rowI = row * 4;
+			/**Index of the unsolved clues. Initially first colum of the row.*/let unsolvedI = rowI + 4;
+      [...bricks].forEach(function (brick, i) {
+        console.log(brick.innerHTML+"'s initial index is "+i)
         if (brick.row < row) {
-          brick.newIndex = index;
+          brick.newI = i;
         } else if (brick.row == row) {
-          brick.newIndex = rowIndex++;
+          brick.newI = rowI++;
         } else {
-          brick.newIndex = unsolvedIndex++;
+          brick.newI = unsolvedI++;
         }
-        brick.newTop = bricks[brick.newIndex].cell.offsetTop;
-        brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
+        console.log(brick.innerHTML+"'s new index is "+brick.newI)
+        // brick.newTop = bricks[brick.newIndex].cell.offsetTop;
+        // brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
       });
-
+      bricks.sort((a, b) => a.newI - b.newI);
+      row++;
     }
   })
   playAudio('incorrectGroup.mp3')
@@ -96,9 +99,18 @@ function checkCorrect(){
   selected=[]
 }
 
-function move(){
-  
+function moveElement(element, newIndex) {
+    // Remove the element from its current position
+    element.parentNode.removeChild(element);
+
+    // Insert the element at the new position
+    gridItemsArray[newIndex].appendChild(element);
 }
+
+// Usage:
+let element = document.getElementById('elementId');
+let newIndex = /* your new index */
+moveElement(element, newIndex);
 
 function game(){
 
