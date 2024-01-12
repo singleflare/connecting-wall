@@ -9,7 +9,7 @@ function playAudio(audio){
   new Audio('./audio/'+audio).play()
 }
 /**Array of selected bricks.*/let selected=[]
-/**Index of the correct group, from top to bottom. Max 3.*/let group=0
+/**Index of the correct group's row. Max 3.*/let row=0
 let wall=document.getElementById('wall')
 
 /**Array of same-connection clue arrays.*/let connections=(()=>{
@@ -21,6 +21,9 @@ let wall=document.getElementById('wall')
 })()
 
 /**Array of all clues.*/let clues=connections.flat()
+
+/**Array of all bricks.*/let bricks=document.getElementsByClassName('brick')
+console.log(bricks,clues)
 
 function shuffle(arr){
   for(let i=0;i<arr.length;i++){
@@ -44,17 +47,14 @@ function createHtml(parent,tag,cssClass,content){
   return child
 }
 
-/**Selects brick, adds them to the selected array, and highlights it.*/function select(e){
+/**Selects brick, adds them to the selected array, and highlights it.*/
+function select(e){
   playAudio('wallBtnClick.mp3')
   selected.push(e)
   // console.log(selected)
   e.style.backgroundColor='#054872'
   e.style.color='white'
   if(selected.length==4){setTimeout(checkCorrect,500)}
-}
-
-function deselect(e){
-  
 }
 
 function checkCorrect(){
@@ -64,10 +64,28 @@ function checkCorrect(){
       selected.forEach(function(element){res.push(element.innerHTML)})
       return res
     })()
-    let sortedConnection=connection.sort()
-    let sortedSelectedClues=selectedClues.sort()
-    if(sortedSelectedClues.every((clue,i)=>clue===sortedConnection[i])){
+    if(selectedClues.sort().every((clue,i)=>clue===connection.sort()[i])){
+      console.log(selectedClues.sort(),connection.sort())
       playAudio('solveClue.mp3')
+
+      // calculate new position in the grid
+      selected.forEach(function(e){
+        e.row=row
+      })
+			let rowIndex = row * 4;
+			let unsolvedIndex = rowIndex + 4;
+      bricks.forEach(function (brick, index) {
+        if (brick.row < row) {
+          brick.newIndex = index;
+        } else if (brick.row == row) {
+          brick.newIndex = rowIndex++;
+        } else {
+          brick.newIndex = unsolvedIndex++;
+        }
+        brick.newTop = bricks[brick.newIndex].cell.offsetTop;
+        brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
+      });
+
     }
   })
   playAudio('incorrectGroup.mp3')
@@ -84,8 +102,7 @@ function move(){
 
 function game(){
 
-  /**Array of all bricks.*/let bricks=document.getElementsByClassName('brick')
-  console.log(bricks,clues)
+  
 
   //write clue contents to each brick
   shuffle(clues).forEach(function(clue,index){bricks[index].innerHTML=clue})
