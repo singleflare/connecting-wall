@@ -9,7 +9,7 @@ function playAudio(audio){
   new Audio('./audio/'+audio).play()
 }
 /**Array of selected bricks.*/let selected=[]
-/**Index of the current correct group's row. Max 3.*/let row=0
+/**Index of the current correct group's row. From 0 to 3.*/let row=0
 let wall=document.getElementById('wall')
 
 /**Array of same-connection clue arrays.*/let connections=(()=>{
@@ -59,7 +59,7 @@ function select(e){
 
 function checkCorrect(){
   connections.forEach(function(connection){
-    let selectedClues=(()=>{
+    /**Array of selected clues.*/let selectedClues=(()=>{
       let res=[]
       selected.forEach(function(element){res.push(element.innerHTML)})
       return res
@@ -87,7 +87,8 @@ function checkCorrect(){
         // brick.newTop = bricks[brick.newIndex].cell.offsetTop;
         // brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
       });
-      bricks.sort((a, b) => a.newI - b.newI);
+      bricks.sort((a, b) => a.newI - b.newI); //result sign of function inside sort defines sort direction
+      console.log("After sort: "+bricks.innerHTML)
       row++;
     }
   })
