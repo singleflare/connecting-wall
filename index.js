@@ -54,7 +54,7 @@ function select(e){
   console.log(selected)
   e.classList.add("row"+row)
   e.classList.remove('unselected')
-  if(selected.length==4){setTimeout(checkCorrect,500)}
+  if(selected.length==4){setTimeout(checkCorrect,200)}
 }
 
 function checkCorrect(){
@@ -71,7 +71,6 @@ function checkCorrect(){
       // calculate new position in the grid
       selected.forEach(function(e){
         e.row=row
-        
       })
 			/**Index of the first element of the correct group.*/let rowI = row * 4;
 			/**Index of the unsolved clues. Initially first colum of the row.*/let unsolvedI = rowI + 4;
@@ -87,41 +86,19 @@ function checkCorrect(){
           brick.newI = unsolvedI++;
         }
         console.log(brick.innerHTML+"'s new index is "+brick.newI)
-        // brick.newTop = bricks[brick.newIndex].cell.offsetTop;
-        // brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
       });
-      [...bricks].sort((a, b) => a.newI - b.newI); //result sign of function inside sort defines sort direction
-      console.log(...bricks);
-      [...bricks].forEach(function(e){console.log("After sort: "+e.innerHTML)})
       row++;
     }
   })
   playAudio('incorrectGroup.mp3')
   selected.forEach((e)=>{
-    // e.style.backgroundColor='#91C3E4'
-    // e.style.color='black'
     e.classList.remove("row"+row)
     e.classList.add('unselected')
   })
   selected=[]
 }
 
-function moveElement(element, newIndex) {
-    // Remove the element from its current position
-    element.parentNode.removeChild(element);
-
-    // Insert the element at the new position
-    gridItemsArray[newIndex].appendChild(element);
-}
-
-// Usage:
-let element = document.getElementById('elementId');
-let newIndex = /* your new index */
-moveElement(element, newIndex);
-
 function game(){
-
-  
 
   //write clue contents to each brick
   shuffle(clues).forEach(function(clue,index){bricks[index].innerHTML=clue})
