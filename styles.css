@@ -25,8 +25,6 @@ body{
   gap: 5px;
 }
 .brick{
-  color: black;
-  background: #91C3E4;
   transition-duration: 0s;
 
   display: flex;
@@ -66,4 +64,24 @@ body{
   background-color: black;
   width:25%;
   height:100%;
+}
+.brick.unselected{
+  color: #000000;
+	background: #91C3E4;
+}
+.brick.row0 {
+	color: #FFFFFF;
+	background: #054872;
+}
+.brick.row1 {
+	color: #FFFFFF;
+	background: #097B5A;
+}
+.brick.row2 {
+	color: #FFFFFF;
+	background: #572143;
+}
+.brick.row3 {
+	color: #FFFFFF;
+	background: #056F7C;
 }

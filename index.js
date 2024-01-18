@@ -52,8 +52,8 @@ function select(e){
   playAudio('wallBtnClick.mp3')
   selected.push(e)
   console.log(selected)
-  e.style.backgroundColor='#054872'
-  e.style.color='white'
+  e.classList.add("row"+row)
+  e.classList.remove('unselected')
   if(selected.length==4){setTimeout(checkCorrect,500)}
 }
 
@@ -71,6 +71,7 @@ function checkCorrect(){
       // calculate new position in the grid
       selected.forEach(function(e){
         e.row=row
+        
       })
 			/**Index of the first element of the correct group.*/let rowI = row * 4;
 			/**Index of the unsolved clues. Initially first colum of the row.*/let unsolvedI = rowI + 4;
@@ -78,24 +79,29 @@ function checkCorrect(){
         console.log(brick.innerHTML+"'s initial index is "+i)
         if (brick.row < row) {
           brick.newI = i;
-        } else if (brick.row == row) {
+        } 
+        else if (brick.row == row) {
           brick.newI = rowI++;
-        } else {
+        } 
+        else {
           brick.newI = unsolvedI++;
         }
         console.log(brick.innerHTML+"'s new index is "+brick.newI)
         // brick.newTop = bricks[brick.newIndex].cell.offsetTop;
         // brick.newLeft = bricks[brick.newIndex].cell.offsetLeft;
       });
-      bricks.sort((a, b) => a.newI - b.newI); //result sign of function inside sort defines sort direction
-      console.log("After sort: "+bricks.innerHTML)
+      [...bricks].sort((a, b) => a.newI - b.newI); //result sign of function inside sort defines sort direction
+      console.log(...bricks);
+      [...bricks].forEach(function(e){console.log("After sort: "+e.innerHTML)})
       row++;
     }
   })
   playAudio('incorrectGroup.mp3')
-  selected.forEach((element)=>{
-    element.style.backgroundColor='#91C3E4'
-    element.style.color='black'
+  selected.forEach((e)=>{
+    // e.style.backgroundColor='#91C3E4'
+    // e.style.color='black'
+    e.classList.remove("row"+row)
+    e.classList.add('unselected')
   })
   selected=[]
 }
@@ -121,6 +127,8 @@ function game(){
   shuffle(clues).forEach(function(clue,index){bricks[index].innerHTML=clue})
 
   //assign event listener to each brick
-  for(let element of bricks){element.addEventListener("click",function(){select(element)})}
-
+  for(let element of bricks){
+    element.addEventListener("click",function(){select(element)})
+    element.classList.add('unselected')
+  }
 }
