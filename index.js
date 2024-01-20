@@ -101,7 +101,7 @@ function checkCorrect(){
 function game(){
 
   //write clue contents to each brick
-  shuffle(clues).forEach(function(clue,index){bricks[index].innerHTML=clue})
+  shuffle(clues).forEach(function(clue,index){document.getElementsByClassName('content')[index].innerHTML=clue})
 
   //assign event listener to each brick
   for(let element of bricks){

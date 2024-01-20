@@ -24,22 +24,17 @@ body{
   height:92vh;
   gap: 5px;
 }
-.brick{
-  transition-duration: 0s;
-
+.flexText{
+  height:100%;
   display: flex;
 	flex-flow: column;
 	justify-content: center;
 	align-items: center;
-
+  text-align: center;
+}
+.content{
   font-size: 40pt;
   font-family:Arial;
-  box-sizing: border-box;
-  height:100%;
-  margin:0;
-}
-.brick:hover{
-  background-color: #45b5ff;
 }
 .timer{
   position: absolute;
