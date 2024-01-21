@@ -35,6 +35,16 @@ function shuffle(arr){
   return arr
 }
 
+function countdown(secs){
+  document.getElementById('timer').innerHTML=secs
+  setInterval(function(){
+    secs-=1
+    document.getElementById('timer').innerHTML=secs
+    if(secs==0){console.log('time up')}
+  },1000)
+  
+}
+
 function createHtml(parent,tag,cssClass,content){
   /*
   parent: element's parent. Must pass an existing element to append child to that element.
@@ -50,18 +60,30 @@ function createHtml(parent,tag,cssClass,content){
 /**Selects brick, adds them to the selected array, and highlights it.*/
 function select(e){
   playAudio('wallBtnClick.mp3')
-  selected.push(e)
-  console.log(selected)
-  e.classList.add("row"+row)
-  e.classList.remove('unselected')
-  if(selected.length==4){setTimeout(checkCorrect,200)}
+  if(!selected.includes(e)){
+    selected.push(e)
+    console.log(selected)
+    e.classList.add("row"+row)
+    e.classList.remove('unselected')
+    if(selected.length==4){
+      setTimeout(checkCorrect,200)
+    }
+  }
+  else {
+    selected=selected.filter(b=>b!=e);
+    e.classList.remove("row"+row);
+    e.classList.add("unselected");
+    console.log(selected)
+  }
 }
 
 function checkCorrect(){
   connections.forEach(function(connection){
     /**Array of selected clues.*/let selectedClues=(()=>{
       let res=[]
-      selected.forEach(function(element){res.push(element.innerHTML)})
+      selected.forEach(function(brick){
+        let text=brick.querySelector('.text')
+        res.push(text.innerHTML)})
       return res
     })()
     if(selectedClues.sort().every((clue,i)=>clue===connection.sort()[i])){
@@ -75,7 +97,8 @@ function checkCorrect(){
 			/**Index of the first element of the correct group.*/let rowI = row * 4;
 			/**Index of the unsolved clues. Initially first colum of the row.*/let unsolvedI = rowI + 4;
       [...bricks].forEach(function (brick, i) {
-        console.log(brick.innerHTML+"'s initial index is "+i)
+        let text=brick.querySelector('.text')
+        console.log(text.innerHTML+"'s initial index is "+i)
         if (brick.row < row) {
           brick.newI = i;
         } 
@@ -85,7 +108,7 @@ function checkCorrect(){
         else {
           brick.newI = unsolvedI++;
         }
-        console.log(brick.innerHTML+"'s new index is "+brick.newI)
+        console.log(text.innerHTML+"'s new index is "+brick.newI)
       });
       row++;
     }
@@ -101,11 +124,13 @@ function checkCorrect(){
 function game(){
 
   //write clue contents to each brick
-  shuffle(clues).forEach(function(clue,index){document.getElementsByClassName('content')[index].innerHTML=clue})
+  shuffle(clues).forEach(function(clue,index){document.getElementsByClassName('text')[index].innerHTML=clue})
 
   //assign event listener to each brick
-  for(let element of bricks){
-    element.addEventListener("click",function(){select(element)})
-    element.classList.add('unselected')
+  for(let brick of bricks){
+    brick.addEventListener("click",function(){select(brick)})
+    brick.classList.add('unselected')
   }
+
+  countdown(150)
 }

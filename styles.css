@@ -24,26 +24,25 @@ body{
   height:92vh;
   gap: 5px;
 }
-.flexText{
+.text{
   height:100%;
   display: flex;
 	flex-flow: column;
 	justify-content: center;
 	align-items: center;
   text-align: center;
-}
-.content{
+
   font-size: 40pt;
   font-family:Arial;
 }
-.timer{
+#timer{
   position: absolute;
   right:0;
   margin:10px;
-  width:74%;
+  width:5%;
   height:50px;
-  background-color: darkblue;
   border-radius: 10px;
+  font-size: 40pt;
 }
 .lives{
   position: absolute;
