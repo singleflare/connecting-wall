@@ -78,6 +78,7 @@ function select(e){
 }
 
 function checkCorrect(){
+  let connected=false
   connections.forEach(function(connection){
     /**Array of selected clues.*/let selectedClues=(()=>{
       let res=[]
@@ -86,7 +87,8 @@ function checkCorrect(){
         res.push(text.innerHTML)})
       return res
     })()
-    if(selectedClues.sort().every((clue,i)=>clue===connection.sort()[i])){
+    if(selectedClues.sort().every((clue,i)=>clue==connection.sort()[i])){
+      connected=true
       console.log(selectedClues.sort(),connection.sort())
       playAudio('solveClue.mp3')
 
@@ -112,12 +114,15 @@ function checkCorrect(){
       });
       row++;
     }
+    if(!connected){
+      playAudio('incorrectGroup.mp3')
+      selected.forEach((e)=>{ //wrong
+        e.classList.remove("row"+row)
+        e.classList.add('unselected')
+      })
+    }
   })
-  playAudio('incorrectGroup.mp3')
-  selected.forEach((e)=>{
-    e.classList.remove("row"+row)
-    e.classList.add('unselected')
-  })
+  
   selected=[]
 }
 
