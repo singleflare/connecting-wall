@@ -78,7 +78,6 @@ function select(e){
 }
 
 function checkCorrect(){
-  let connected=false
   connections.forEach(function(connection){
     /**Array of selected clues.*/let selectedClues=(()=>{
       let res=[]
@@ -88,7 +87,6 @@ function checkCorrect(){
       return res
     })()
     if(selectedClues.sort().every((clue,i)=>clue==connection.sort()[i])){
-      connected=true
       console.log(selectedClues.sort(),connection.sort())
       playAudio('solveClue.mp3')
 
@@ -114,7 +112,7 @@ function checkCorrect(){
       });
       row++;
     }
-    if(!connected){
+    else{
       playAudio('incorrectGroup.mp3')
       selected.forEach((e)=>{ //wrong
         e.classList.remove("row"+row)
